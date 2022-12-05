@@ -1,0 +1,18 @@
+version: "3.9"
+
+volumes:
+  postgres_data:
+    driver: local
+
+services:
+  rs-postgres:
+    image: postgres:latest
+    container_name: rs-postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: rs_user
+      POSTGRES_PASSWORD: rs_pass

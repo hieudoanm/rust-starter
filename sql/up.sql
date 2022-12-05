@@ -1,0 +1,8 @@
+CREATE SCHEMA IF NOT EXISTS public;
+
+CREATE TABLE IF NOT EXISTS public.tasks (
+	id					TEXT		PRIMARY KEY,
+	title				VARCHAR	NOT NULL DEFAULT '',
+	description	VARCHAR	NOT NULL DEFAULT '',
+	completed		VARCHAR	NOT NULL DEFAULT false
+);
