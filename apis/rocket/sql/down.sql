@@ -1,3 +1,0 @@
-DROP TABLE IF EXISTS public.tasks;
-
-DROP SCHEMA IF EXISTS public;

@@ -1,0 +1,2 @@
+[development.databases.my_db]
+url = "postgres://rs_user:rs_pass@localhost:5432/postgres"
