@@ -1,55 +1,13 @@
-#![feature(plugin, decl_macro, proc_macro_hygiene)]
-#![allow(unused_attributes)]
+#[macro_use] extern crate rocket;
 
-#[macro_use]
-extern crate diesel;
-extern crate dotenv;
-extern crate r2d2;
-extern crate r2d2_diesel;
-#[macro_use]
-extern crate rocket;
-extern crate rocket_contrib;
-#[macro_use]
-extern crate serde_derive;
-#[macro_use]
-extern crate serde_json;
-
-use dotenv::dotenv;
-use std::env;
-use routes::*;
-use std::process::Command;
-
-mod database;
-mod models;
-mod routes;
-mod schema;
-
-fn rocket() -> rocket::Rocket {
-    dotenv().ok();
-
-    let database_url = env::var("DATABASE_URL").expect("set DATABASE_URL");
-
-    let pool = database::init_pool(database_url);
-    rocket::ignite()
-        .manage(pool)
-        .mount(
-            "/api/v1/",
-            routes![get_all, new_task, find_task],
-        )
+#[get("/")]
+fn index() -> &'static str {
+    "Hello, world!"
 }
 
-fn main() {
-    let _output = if cfg!(target_os = "windows") {
-        Command::new("cmd")
-            .args(&["/C", "cd ui && npm start"])
-            .spawn()
-            .expect("Failed to start UI Application")
-    } else {
-        Command::new("sh")
-            .arg("-c")
-            .arg("cd ui && npm start")
-            .spawn()
-            .expect("Failed to start UI Application")
-    };
-    rocket().launch();
+#[launch]
+fn rocket() -> _ {
+	let rocket = rocket::build();
+
+	rocket.mount("/", routes![index])
 }
