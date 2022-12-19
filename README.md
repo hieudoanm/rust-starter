@@ -1,4 +1,4 @@
-# Rust - Back-end Starter
+# Rust - Starter
 
 ```sh
 # Install postgresql for mac
