@@ -14,5 +14,14 @@ services:
       - "5432:5432"
     environment:
       POSTGRES_DB: postgres
-      POSTGRES_USER: rs_user
-      POSTGRES_PASSWORD: rs_pass
+      POSTGRES_USER: rsuser
+      POSTGRES_PASSWORD: rspass
+
+  rs-redis:
+    restart: unless-stopped
+    image: redis:latest
+    container_name: rs-redis
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+    ports:
+      - 6379:6379
