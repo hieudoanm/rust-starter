@@ -1,6 +1,8 @@
 #![feature(proc_macro_hygiene, decl_macro)]
 
 #[macro_use]
+extern crate diesel;
+#[macro_use]
 extern crate rocket;
 extern crate rocket_contrib;
 extern crate serde;
@@ -10,6 +12,42 @@ use rocket::Request;
 use rocket_contrib::json::Json;
 use serde::{Deserialize, Serialize};
 use std::string::String;
+
+diesel::table! {
+	List (id) {
+			id -> Text,
+			title -> Text,
+			description -> Text,
+			createdAt -> Timestamp,
+			updatedAt -> Timestamp,
+			userId -> Text,
+	}
+}
+
+diesel::table! {
+	Task (id) {
+			id -> Text,
+			title -> Text,
+			description -> Text,
+			completed -> Bool,
+			createdAt -> Timestamp,
+			updatedAt -> Timestamp,
+			listId -> Text,
+	}
+}
+
+diesel::table! {
+	User (id) {
+			id -> Text,
+			username -> Text,
+			password -> Text,
+			createdAt -> Timestamp,
+			updatedAt -> Timestamp,
+	}
+}
+
+diesel::joinable!(List -> User (userId));
+diesel::joinable!(Task -> List (listId));
 
 #[derive(Deserialize, Serialize)]
 struct HealthResponse {
@@ -31,7 +69,7 @@ fn health() -> Json<HealthResponse> {
 }
 
 #[derive(Deserialize, Serialize)]
-struct Task {
+struct TaskResponse {
     id: String,
     title: String,
     description: String,
